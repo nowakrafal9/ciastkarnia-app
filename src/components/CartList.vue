@@ -8,7 +8,10 @@
         </li>
       </ul>
       <h2>Total: {{ cartTotal }} PLN</h2>
-      <button @click="emptyCart">Opróżnij koszyk</button>
+      <button @click="emptyCart" v-if="cartItems.length > 0">Opróżnij koszyk</button>
+      <router-link to="/potwierdzenie-zamowienia" v-if="cartItems.length > 0">
+        <button>Potwierdź zamówienie</button>
+      </router-link>
       <router-link to="/">
         <button>Wróć do zakupów</button>
       </router-link>

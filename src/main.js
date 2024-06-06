@@ -3,4 +3,6 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 
+import '@vuepic/vue-datepicker/dist/main.css'
+
 createApp(App).use(store).use(router).mount('#app');
