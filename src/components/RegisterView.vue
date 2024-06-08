@@ -11,12 +11,16 @@
           <input type="password" v-model="password" required>
         </div>
         <div>
-          <label for="role">Rola:</label>
-          <select v-model="role" required>
-            <option value="user">Użytkownik</option>
-            <option value="employee">Pracownik</option>
-            <option value="admin">Administrator</option>
-          </select>
+        <label for="firstName">Imię:</label>
+        <input type="text" v-model="firstName" required>
+        </div>
+        <div>
+          <label for="lastName">Nazwisko:</label>
+          <input type="text" v-model="lastName" required>
+        </div>
+        <div>
+          <label for="phoneNumber">Numer Telefonu:</label>
+          <input type="text" v-model="phoneNumber" required>
         </div>
         <button type="submit">Zarejestruj</button>
       </form>
@@ -33,6 +37,9 @@
       return {
         email: '',
         password: '',
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
         role: 'user'
       };
     },
@@ -43,6 +50,9 @@
           const user = userCredential.user;
           await setDoc(doc(collection(db, "users"), user.uid), {
             email: this.email,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            phoneNumber: this.phoneNumber,
             role: this.role
           });
           this.$router.push('/');

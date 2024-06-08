@@ -74,11 +74,12 @@ export default {
     async fetchUsers() {
       const querySnapshot = await getDocs(collection(db, "users"));
       querySnapshot.forEach((doc) => {
-        this.users[doc.id] = doc.data().email;
+        this.users[doc.id] = doc.data();
       });
     },
     getUser(userId) {
-      return this.users[userId] || 'brak informacji';
+      const user = this.users[userId];
+      return user ? `${user.firstName} ${user.lastName}, tel. ${user.phoneNumber}` : 'brak informacji';
     },
     formatDate(date) {
       const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
