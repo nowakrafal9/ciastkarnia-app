@@ -21,6 +21,7 @@
             <td>{{ order.total }} PLN</td>
             <td>
               <button @click="confirmOrder(order, 'closed')">Potwierdź odbiór</button>
+              <button @click="confirmOrder(order, 'canceled')">Anuluj zamówienie</button>
             </td>
           </tr>
         </tbody>
