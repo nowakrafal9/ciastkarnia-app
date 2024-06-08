@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Products from './components/ProductList.vue';
 import Cart from './components/CartList.vue';
 import OrderConfirmation from './components/OrderConfirmation.vue';
+import MyOrders from './components/MyOrders.vue'
 import EmployeeOrders from './components/EmployeeOrders.vue';
 import AdminCakes from './components/AdminCakes.vue';
 import AdminAddCake from './components/AdminAddCake.vue';
@@ -17,6 +18,7 @@ const routes = [
     { path: '/', component: Products },
     { path: '/koszyk', component: Cart, meta: { requiresAuth: true, roles: ['user', 'admin'] } },
     { path: '/potwierdzenie-zamowienia', component: OrderConfirmation, meta: { requiresAuth: true, roles: ['user', 'admin'] } },
+    { path: '/moje-zamowienia', component: MyOrders, meta: { requiresAuth: true, roles: ['user', 'admin'] } },
     { path: '/zamowienia-pracownik', component: EmployeeOrders, meta: { requiresAuth: true, roles: ['employee', 'admin'] } },
     { path: '/ciastka-admin', component: AdminCakes, meta: { requiresAuth: true, roles: ['admin'] } },
     { path: '/dodaj-ciastko-admin', component: AdminAddCake, meta: { requiresAuth: true, roles: ['admin'] } },
