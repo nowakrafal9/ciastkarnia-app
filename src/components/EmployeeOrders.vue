@@ -7,6 +7,7 @@
             <th>Data Zamówienia</th>
             <th>Produkty</th>
             <th>Łączna Cena</th>
+            <th>Akcje</th>
           </tr>
         </thead>
         <tbody>
@@ -18,6 +19,9 @@
               </ul>
             </td>
             <td>{{ order.total }} PLN</td>
+            <td>
+              <button @click="confirmOrder(order, 'closed')">Potwierdź odbiór</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -29,7 +33,7 @@
   </template>
   
   <script>
-  import { collection, getDocs, query, orderBy } from "firebase/firestore";
+  import { collection, getDocs, query, orderBy, addDoc, deleteDoc, doc } from "firebase/firestore";
   import { db } from '../firebase';
   
   export default {
@@ -51,17 +55,28 @@
       },
     },
     async created() {
-      const q = query(collection(db, "orders"), orderBy("date", "asc"));
-      const querySnapshot = await getDocs(q);
-      this.orders = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      await this.fetchOrders();
     },
     methods: {
+      async fetchOrders() {
+        const q = query(collection(db, "orders"), orderBy("date", "asc"));
+        const querySnapshot = await getDocs(q);
+        this.orders = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+      },
       formatDate(date) {
         const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
         return date.toLocaleDateString(undefined, options);
+      },
+      async confirmOrder(order, status) {
+        await addDoc(collection(db, 'archivedOrders'), {
+        ...order,
+        status
+        });
+        await deleteDoc(doc(db, 'orders', order.id));
+        await this.fetchOrders();
       },
       nextPage() {
         if (this.currentPage < this.totalPages) {
