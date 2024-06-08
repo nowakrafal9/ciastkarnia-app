@@ -3,6 +3,7 @@
     <router-link to="/">Produkty</router-link>
     <router-link to="/koszyk">Koszyk</router-link>
     <router-link to="/zamowienia-pracownik">Zamówienia Pracownika</router-link>
+    <router-link to="/ciastka-admin">Admin</router-link>
     <router-view></router-view>
   </div>
 </template>
