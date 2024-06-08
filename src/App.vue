@@ -4,6 +4,7 @@
     <router-link v-if="userRole === 'user' || userRole === 'admin'" to="/koszyk">Koszyk</router-link>
     <router-link v-if="userRole === 'employee' || userRole === 'admin'" to="/zamowienia-pracownik">Zamówienia Pracownika</router-link>
     <router-link v-if="userRole === 'admin'" to="/ciastka-admin">Admin</router-link>
+    <router-link v-if="userRole === 'admin'" to="/lista-uzytkownikow-admin">Zarządzanie Użytkownikami</router-link>
     <router-link to="/login" v-if="!user">Login</router-link>
     <button @click="logout" v-if="user">Wyloguj</button>
 

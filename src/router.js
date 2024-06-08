@@ -8,6 +8,7 @@ import AdminAddCake from './components/AdminAddCake.vue';
 import AdminEditCake from './components/AdminEditCake.vue';
 import Login from './components/LoginView.vue';
 import Register from './components/RegisterView.vue';
+import AdminUserList from './components/AdminUsersList.vue';
 
 import { auth, db } from './firebase';
 import { getDoc, doc } from "firebase/firestore";
@@ -20,6 +21,7 @@ const routes = [
     { path: '/ciastka-admin', component: AdminCakes, meta: { requiresAuth: true, roles: ['admin'] } },
     { path: '/dodaj-ciastko-admin', component: AdminAddCake, meta: { requiresAuth: true, roles: ['admin'] } },
     { path: '/edytuj-ciastko-admin/:id', component: AdminEditCake, meta: { requiresAuth: true, roles: ['admin'] } },
+    { path: '/lista-uzytkownikow-admin', component: AdminUserList, meta: { requiresAuth: true, roles: ['admin'] } },
     { path: '/login', component: Login },
     { path: '/register', component: Register }
 ];
