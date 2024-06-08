@@ -7,6 +7,7 @@
             <th>Data Zamówienia</th>
             <th>Produkty</th>
             <th>Łączna Cena</th>
+            <th>Zamawiający</th>
             <th>Akcje</th>
           </tr>
         </thead>
@@ -19,6 +20,7 @@
               </ul>
             </td>
             <td>{{ order.total }} PLN</td>
+            <td>{{ getUser(order.userId) }}</td>
             <td>
               <button @click="confirmOrder(order, 'closed')">Potwierdź odbiór</button>
               <button @click="confirmOrder(order, 'canceled')">Anuluj zamówienie</button>
@@ -34,64 +36,75 @@
   </template>
   
   <script>
-  import { collection, getDocs, query, orderBy, addDoc, deleteDoc, doc } from "firebase/firestore";
-  import { db } from '../firebase';
-  
-  export default {
-    data() {
-      return {
-        orders: [],
-        currentPage: 1,
-        perPage: 10,
-      };
+import { collection, getDocs, query, orderBy, addDoc, deleteDoc, doc } from "firebase/firestore";
+import { db } from '../firebase';
+
+export default {
+  data() {
+    return {
+      orders: [],
+      currentPage: 1,
+      perPage: 10,
+      users: {}
+    };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.orders.length / this.perPage);
     },
-    computed: {
-      totalPages() {
-        return Math.ceil(this.orders.length / this.perPage);
-      },
-      paginatedOrders() {
-        const start = (this.currentPage - 1) * this.perPage;
-        const end = start + this.perPage;
-        return this.orders.slice(start, end);
-      },
+    paginatedOrders() {
+      const start = (this.currentPage - 1) * this.perPage;
+      const end = start + this.perPage;
+      return this.orders.slice(start, end);
     },
-    async created() {
-      await this.fetchOrders();
+  },
+  async created() {
+    await this.fetchOrders();
+    await this.fetchUsers();
+  },
+  methods: {
+    async fetchOrders() {
+      const q = query(collection(db, "orders"), orderBy("date", "asc"));
+      const querySnapshot = await getDocs(q);
+      this.orders = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
     },
-    methods: {
-      async fetchOrders() {
-        const q = query(collection(db, "orders"), orderBy("date", "asc"));
-        const querySnapshot = await getDocs(q);
-        this.orders = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-      },
-      formatDate(date) {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        return date.toLocaleDateString(undefined, options);
-      },
-      async confirmOrder(order, status) {
-        await addDoc(collection(db, 'archivedOrders'), {
+    async fetchUsers() {
+      const querySnapshot = await getDocs(collection(db, "users"));
+      querySnapshot.forEach((doc) => {
+        this.users[doc.id] = doc.data().email;
+      });
+    },
+    getUser(userId) {
+      return this.users[userId] || 'brak informacji';
+    },
+    formatDate(date) {
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+      return date.toLocaleDateString(undefined, options);
+    },
+    async confirmOrder(order, status) {
+      await addDoc(collection(db, 'archivedOrders'), {
         ...order,
         status
-        });
-        await deleteDoc(doc(db, 'orders', order.id));
-        await this.fetchOrders();
-      },
-      nextPage() {
-        if (this.currentPage < this.totalPages) {
-          this.currentPage++;
-        }
-      },
-      prevPage() {
-        if (this.currentPage > 1) {
-          this.currentPage--;
-        }
-      },
+      });
+      await deleteDoc(doc(db, 'orders', order.id));
+      await this.fetchOrders();
     },
-  };
-  </script>
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+  },
+};
+</script>
   
   <style scoped>
   .pagination {

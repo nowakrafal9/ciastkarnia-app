@@ -21,7 +21,7 @@
   
   <script>
   import { mapGetters } from 'vuex';
-  import { db } from '../firebase';
+  import { db, auth } from '../firebase';
   import { collection, addDoc } from 'firebase/firestore';
   import DatePicker from '@vuepic/vue-datepicker';
   import '@vuepic/vue-datepicker/dist/main.css';
@@ -50,10 +50,13 @@
             return;
         }
 
+        const userId = auth.currentUser.uid;
+
         const order = {
           date: this.orderDate,
           items: this.cartItems,
-          total: this.cartTotal
+          total: this.cartTotal,
+          userId: userId
         };
   
         try {
