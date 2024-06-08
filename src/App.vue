@@ -1,66 +1,49 @@
 <template>
   <div id="app">
-    <router-link to="/">Produkty</router-link>
-    <router-link v-if="userRole === 'user' || userRole === 'admin'" to="/koszyk">Koszyk</router-link>
-    <router-link v-if="userRole === 'employee' || userRole === 'admin'" to="/zamowienia-pracownik">Zamówienia Pracownika</router-link>
-    <router-link v-if="userRole === 'admin'" to="/ciastka-admin">Admin</router-link>
-    <router-link v-if="userRole === 'admin'" to="/lista-uzytkownikow-admin">Zarządzanie Użytkownikami</router-link>
-    <router-link to="/login" v-if="!user">Login</router-link>
-    <button @click="logout" v-if="user">Wyloguj</button>
-
-    <router-view></router-view>
+    <Header />
+    <main>
+      <router-view></router-view>
+    </main>
   </div>
 </template>
 
 <script>
-import { auth } from './firebase';
-import { signOut } from "firebase/auth";
-import { getDoc, doc } from "firebase/firestore";
-import { db } from './firebase';
+import Header from './components/StyleHeader.vue';
 
 export default {
-  data() {
-    return {
-      user: null,
-      userRole: null
-    };
-  },
-  async created() {
-    this.updateUserState();
-
-    auth.onAuthStateChanged(() => {
-      this.updateUserState();
-    });
-  },
-  methods: {
-    async updateUserState() {
-      const user = auth.currentUser;
-      if (user) {
-        this.user = user;
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        if (userDoc.exists()) {
-          this.userRole = userDoc.data().role;
-        }
-      } else {
-        this.user = null;
-        this.userRole = null;
-      }
-    },
-    async logout() {
-      await signOut(auth);
-      this.$router.push('/');
-    }
+  components: {
+    Header,
   }
 };
 </script>
 
 <style>
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f1e0;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  background-color: #fff;
+}
+
+button {
+  background-color: #d2b48c;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #c3a384;
 }
 </style>
