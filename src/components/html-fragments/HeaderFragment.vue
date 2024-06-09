@@ -19,11 +19,11 @@
                     <router-link v-if="userRole === 'admin'" to="/ciastka-admin">Zarządzenie ciastkami</router-link>
                     <router-link v-if="userRole === 'admin'" to="/lista-uzytkownikow-admin">Zarządzanie Użytkownikami</router-link>
 
-                    <router-link v-if="userRole === 'user' || userRole === 'admin'" to="/koszyk">
+                    <router-link v-if="userRole === 'user'" to="/koszyk">
                         Koszyk
                         <span class="cart-count" v-if="cartItemCount > 0">({{ cartItemCount }})</span>
                     </router-link>
-                    <router-link to="/moje-zamowienia">Moje zamówienia</router-link>
+                    <router-link v-if="userRole === 'user'" to="/moje-zamowienia">Moje zamówienia</router-link>
                     <button @click="logout" class="logout">Wyloguj</button>
                 </div>
             </div>
