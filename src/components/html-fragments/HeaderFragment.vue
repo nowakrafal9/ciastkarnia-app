@@ -19,7 +19,10 @@
                     <router-link v-if="userRole === 'admin'" to="/ciastka-admin">Zarządzenie ciastkami</router-link>
                     <router-link v-if="userRole === 'admin'" to="/lista-uzytkownikow-admin">Zarządzanie Użytkownikami</router-link>
 
-                    <router-link v-if="userRole === 'user' || userRole === 'admin'" to="/koszyk">Koszyk</router-link>
+                    <router-link v-if="userRole === 'user' || userRole === 'admin'" to="/koszyk">
+                        Koszyk
+                        <span class="cart-count" v-if="cartItemCount > 0">({{ cartItemCount }})</span>
+                    </router-link>
                     <router-link to="/moje-zamowienia">Moje zamówienia</router-link>
                     <button @click="logout" class="logout">Wyloguj</button>
                 </div>
@@ -32,6 +35,7 @@
     import { auth, db } from '@/firebase';
     import { signOut } from "firebase/auth";
     import { getDoc, doc } from "firebase/firestore";
+    import { mapState } from 'vuex';
 
     export default {
         data() {
@@ -40,8 +44,12 @@
                 userRole: null,
                 userDisplayName: '',
                 isDropdownOpen: false,
-                title: 'Tytuł podstrony'
             };
+        },
+        computed: {
+            ...mapState({
+                cartItemCount: state => state.cart.length
+            })
         },
         async created() {
             this.updateUserState();
@@ -195,7 +203,7 @@ nav a:hover {
 
 .user-info .dropdown-content .logout{
     background-color: #E7A66C;
-    font-weight: bold;
+    text-decoration: none;
 }
 .user-info .dropdown-content a,
 .user-info .dropdown-content button {
@@ -207,11 +215,14 @@ nav a:hover {
     text-align: center;
     width: 100%;
     box-sizing: border-box;
+    font-family: Arial,sans-serif;
+    font-size: 16px;
 }
 
 .user-info .dropdown-content a:hover,
 .user-info .dropdown-content button:hover {
-    background-color: #f1f1f1;
+    background-color: #7f3f00;
+    color: #ffffff;
 }
 
 .no-select {
