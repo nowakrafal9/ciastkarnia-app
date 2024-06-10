@@ -16,9 +16,9 @@
     </table>
     <h3>Łączna kwota: {{ cartTotal }} zł</h3>
     <div class="button-group">
-      <button @click="confirmOrder" class="btn">Potwierdź Zamówienie</button>
+      <button @click="confirmOrder" class="btn btn-confirm">Potwierdź Zamówienie</button>
       <router-link to="/cart">
-        <button class="btn">Anuluj</button>
+        <button class="btn btn-cancel">Anuluj</button>
       </router-link>
     </div>
   </div>
@@ -139,7 +139,7 @@ export default {
 
 .btn {
   background-color: #E7A66C;
-  color: #fff;
+  color: #7f3f00;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -154,5 +154,23 @@ export default {
 
 .btn+.btn {
   margin-left: 10px;
+}
+
+.btn-confirm {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.btn-confirm:hover {
+  background-color: #27ae60;
+}
+
+.btn-cancel {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.btn-cancel:hover {
+  background-color: #c0392b;
 }
 </style>

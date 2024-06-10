@@ -13,7 +13,7 @@
           <tr>
             <th>Nazwa</th>
             <th>Cena</th>
-            <th>Akcja</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -21,21 +21,21 @@
             <td>{{ item.name }}</td>
             <td>{{ item.price }} zł</td>
             <td>
-              <button class="btn" @click="removeItem(item.uuid)">Usuń</button>
+              <button class="btn btn-delete" @click="removeItem(item.uuid, item.name)">Usuń</button>
             </td>
           </tr>
         </tbody>
       </table>
       <h2>Łączna kwota: {{ cartTotal }} zł</h2>
       <div class="button-group">
-        <button class="btn" @click="emptyCart">Opróżnij koszyk</button>
+        <button class="btn btn-empty" @click="emptyCart">Opróżnij koszyk</button>
         <router-link to="/confirm-order">
-          <button class="btn">Potwierdź zamówienie</button>
-        </router-link>
-        <router-link to="/">
-          <button class="btn">Wróć do zakupów</button>
+          <button class="btn btn-confirm">Potwierdź zamówienie</button>
         </router-link>
       </div>
+      <router-link to="/" class="to-back">
+        <button class="btn">Wróć do zakupów</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -52,11 +52,15 @@ export default {
   },
   methods: {
     ...mapActions(['removeFromCart', 'clearCart']),
-    removeItem(uuid) {
-      this.removeFromCart(uuid);
+    removeItem(uuid, name) {
+      if (confirm('Czy na pewno chcesz usunąć "' + name + '" z koszyka?')) {
+        this.removeFromCart(uuid);
+      }
     },
     emptyCart() {
-      this.clearCart();
+      if (confirm('Czy na pewno chcesz opróżnić koszyk?')) {
+        this.clearCart();
+      }
     }
   }
 };
@@ -90,7 +94,7 @@ export default {
 
 .cart-table th,
 .cart-table td {
-  border: 1px solid #7f3f00;
+  border-bottom: 1px solid #7f3f00;
   padding: 8px;
   text-align: center;
 }
@@ -104,6 +108,7 @@ button.btn {
   background-color: #E7A66C;
   color: #7f3f00;
   border: none;
+  margin: 0 5px;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
@@ -115,8 +120,24 @@ button.btn:hover {
   background-color: #d9985c;
 }
 
-button.btn {
-  margin: 0 5px;
+button.btn-empty,
+button.btn-delete {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+button.btn-empty:hover,
+button.btn-delete:hover {
+  background-color: #c0392b;
+}
+
+button.btn-confirm {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+button.btn-confirm:hover {
+  background-color: #27ae60;
 }
 
 .button-group {
@@ -127,5 +148,19 @@ button.btn {
 
 button.router-link+button.router-link {
   margin-left: 10px;
+}
+
+.button-group .btn {
+  margin: 0 10px 20px;
+}
+
+button.router-link+button.router-link {
+  margin-left: 10px;
+}
+
+.router-link.to-back {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
 }
 </style>
