@@ -37,7 +37,7 @@
   
   <script>
 import { collection, getDocs, query, orderBy, addDoc, deleteDoc, doc } from "firebase/firestore";
-import { db } from '../firebase';
+import { db } from '../../firebase';
 
 export default {
   data() {

@@ -28,7 +28,7 @@
   </template>
   
   <script>
-  import { auth, db } from '../firebase';
+  import { auth, db } from '@/firebase';
   import { createUserWithEmailAndPassword } from "firebase/auth";
   import { collection, doc, setDoc } from "firebase/firestore"; 
   

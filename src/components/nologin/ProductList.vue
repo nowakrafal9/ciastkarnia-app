@@ -28,11 +28,9 @@
 </template>
 
 <script>
-import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { db, auth } from '@/firebase';
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
 import { mapActions } from 'vuex';
-import { auth } from '../firebase';
-import { getDoc, doc } from "firebase/firestore";
 
 export default {
   data() {

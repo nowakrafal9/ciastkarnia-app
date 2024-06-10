@@ -224,12 +224,4 @@ nav a:hover {
     background-color: #7f3f00;
     color: #ffffff;
 }
-
-.no-select {
-    user-select: none; /* Standard CSS3 */
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-}
-
 </style>
