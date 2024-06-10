@@ -7,7 +7,7 @@
           <img :src="cake.image || require('@/assets/cakes/cake_placeholder.jpg')" alt="Cake image" class="cake-image">
           <div class="cake-info">
             <h2>{{ cake.name }}</h2>
-            <p>{{ cake.price }} PLN</p>
+            <p>{{ cake.price }} zł</p>
             <p>{{ cake.description }}</p>
           </div>
           <button :class="{'add-to-cart-button': true, 'disabled-button': !userRole}" 
@@ -114,7 +114,7 @@ export default {
 .cake-item {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #7f3f00;
+  border-bottom: 2px solid #7f3f00;
   padding: 10px 0;
   margin-bottom: 10px;
 }

@@ -1,87 +1,113 @@
 <template>
     <div>
-      <h1>Moje Zamówienia</h1>
-      <ul>
-        <li v-for="order in paginatedOrders" :key="order.id">
+      <h1 class="title">Moje Zamówienia</h1>
+      <ul style="list-style-type: none;">
+        <li v-for="order in paginatedOrders" :key="order.id" class="order">
           <div>
             <p>Data: {{ order.date.toDate().toLocaleString() }}</p>
             <p>Szczegóły zamówienia:</p>
             <ul>
                 <li v-for="item in order.items" :key="item.name">
-                    {{ item.name }} - {{ item.price }} PLN
+                    {{ item.name }} - {{ item.price }} zł
                 </li>
             </ul>
-            <p>Łączna wartość: {{ order.total }} PLN</p>
+            <p>Łączna wartość: {{ order.total }} zł</p>
+            <button @click="confirmCancelOrder(order)">Anuluj zamówienie</button>
           </div>
         </li>
       </ul>
-      <div class="pagination">
+      <div class="pagination" v-if="totalPages > 1">
         <button @click="prevPage" :disabled="currentPage === 1">Poprzednia</button>
         <span>Strona {{ currentPage }} z {{ totalPages }}</span>
         <button @click="nextPage" :disabled="currentPage === totalPages">Następna</button>
       </div>
     </div>
-  </template>
+</template>
   
-  <script>
-  import { db, auth } from '@/firebase';
-  import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
-  
-  export default {
-    data() {
-      return {
-        orders: [],
-        currentPage: 1,
-        pageSize: 5,
-        totalOrders: 0,
-      };
+<script>
+import { db, auth } from '@/firebase';
+import { collection, query, where, orderBy, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
+
+export default {
+  data() {
+    return {
+      orders: [],
+      currentPage: 1,
+      pageSize: 5,
+      totalOrders: 0,
+    };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.totalOrders / this.pageSize);
     },
-    computed: {
-      totalPages() {
-        return Math.ceil(this.totalOrders / this.pageSize);
-      },
-      paginatedOrders() {
-        const start = (this.currentPage - 1) * this.pageSize;
-        const end = start + this.pageSize;
-        return this.orders.slice(start, end);
-      },
+    paginatedOrders() {
+      const start = (this.currentPage - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      return this.orders.slice(start, end);
     },
-    async created() {
+  },
+  async created() {
+    await this.fetchOrders();
+  },
+  methods: {
+    async fetchOrders() {
+      const user = auth.currentUser;
+      if (user) {
+        const q = query(
+          collection(db, 'orders'),
+          where('userId', '==', user.uid),
+          orderBy('date', 'asc')
+        );
+        const querySnapshot = await getDocs(q);
+        this.orders = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        this.totalOrders = this.orders.length;
+      }
+    },
+    async cancelOrder(order) {
+      await addDoc(collection(db, 'archivedOrders'), {
+        ...order,
+        status: 'cancelled'
+      });
+      await deleteDoc(doc(db, 'orders', order.id));
       await this.fetchOrders();
     },
-    methods: {
-      async fetchOrders() {
-        const user = auth.currentUser;
-        console.log(user);
-        if (user) {
-          const q = query(
-            collection(db, 'orders'),
-            where('userId', '==', user.uid),
-            orderBy('date', 'asc')
-          );
-          const querySnapshot = await getDocs(q);
-          this.orders = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          this.totalOrders = this.orders.length;
-        }
-      },
-      nextPage() {
-        if (this.currentPage < this.totalPages) {
-          this.currentPage++;
-        }
-      },
-      prevPage() {
-        if (this.currentPage > 1) {
-          this.currentPage--;
-        }
-      },
+    confirmCancelOrder(order) {
+      if (confirm('Czy na pewno chcesz anulować zamówienie?')) {
+        this.cancelOrder(order);
+      }
     },
-  };
-  </script>
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    }
+  },
+};
+</script>
   
-  <style scoped>
+<style scoped>
+  .title {
+    text-align: center;
+    font-family: 'Cursive', sans-serif;
+    font-size: 2rem;
+    color: #7f3f00;
+    margin-bottom: 20px;
+  }
+
+  .order{
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #7f3f00;
+  }
+
   .pagination {
     display: flex;
     justify-content: space-between;
@@ -101,5 +127,24 @@
     background-color: #ccc;
     cursor: not-allowed;
   }
-  </style>
+
+  button {
+    background-color: #E7A66C;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #d9985c;
+  }
+
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+</style>
   

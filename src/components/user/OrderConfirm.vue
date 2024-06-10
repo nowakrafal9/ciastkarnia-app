@@ -8,10 +8,10 @@
       <h2>Twoje Zamówienie:</h2>
       <ul>
         <li v-for="item in cartItems" :key="item.id">
-          {{ item.name }} - {{ item.price }} PLN
+          {{ item.name }} - {{ item.price }} zł
         </li>
       </ul>
-      <h3>Total: {{ cartTotal }} PLN</h3>
+      <h3>Total: {{ cartTotal }} zł</h3>
       <button @click="confirmOrder">Potwierdź Zamówienie</button>
       <router-link to="/">
         <button>Anuluj</button>

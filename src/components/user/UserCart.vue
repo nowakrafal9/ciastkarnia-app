@@ -3,11 +3,11 @@
       <h1>Twój Koszyk</h1>
       <ul>
         <li v-for="item in cartItems" :key="item.id">
-          {{ item.name }} - {{ item.price }} PLN
+          {{ item.name }} - {{ item.price }} zł
           <button @click="removeItem(item.id)">Usuń</button>
         </li>
       </ul>
-      <h2>Total: {{ cartTotal }} PLN</h2>
+      <h2>Total: {{ cartTotal }} zł</h2>
       <button @click="emptyCart" v-if="cartItems.length > 0">Opróżnij koszyk</button>
       <router-link to="/potwierdzenie-zamowienia" v-if="cartItems.length > 0">
         <button>Potwierdź zamówienie</button>

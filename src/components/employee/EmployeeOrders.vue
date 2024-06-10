@@ -16,10 +16,10 @@
             <td>{{ formatDate(order.date.toDate()) }}</td>
             <td>
               <ul>
-                <li v-for="item in order.items" :key="item.id">{{ item.name }} - {{ item.price }} PLN</li>
+                <li v-for="item in order.items" :key="item.id">{{ item.name }} - {{ item.price }} zł</li>
               </ul>
             </td>
-            <td>{{ order.total }} PLN</td>
+            <td>{{ order.total }} zł</td>
             <td>{{ getUser(order.userId) }}</td>
             <td>
               <button @click="confirmOrder(order, 'closed')">Potwierdź odbiór</button>
