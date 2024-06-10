@@ -1,6 +1,12 @@
 <template>
     <div>
       <h1 class="title">Moje Zamówienia</h1>
+      <div v-if="orders.length === 0" class="no-orders">
+        <h2>Brak zamówień</h2>
+        <router-link to="/">
+          <button class="btn">Wróć do zakupów</button>
+        </router-link>
+      </div>
       <ul style="list-style-type: none;">
         <li v-for="order in paginatedOrders" :key="order.id" class="order">
           <div>
@@ -103,6 +109,13 @@ export default {
     margin-bottom: 20px;
   }
 
+  .no-orders {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+  }
+
   .order{
     padding-bottom: 1rem;
     border-bottom: 2px solid #7f3f00;
@@ -130,12 +143,13 @@ export default {
 
   button {
     background-color: #E7A66C;
-    color: white;
-    padding: 0.5rem 1rem;
+    color: #7f3f00;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
+    font-weight: bold;
   }
 
   button:hover {
