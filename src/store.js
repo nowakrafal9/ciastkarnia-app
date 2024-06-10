@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import { v4 as uuidv4 } from 'uuid';
 
 export default createStore({
     state: {
@@ -6,10 +7,10 @@ export default createStore({
     },
     mutations: {
         ADD_TO_CART(state, cake) {
-            state.cart.push(cake);
+            state.cart.push({ ...cake, uuid: uuidv4() });
         },
-        REMOVE_FROM_CART(state, cakeId) {
-            state.cart = state.cart.filter(cake => cake.id !== cakeId);
+        REMOVE_FROM_CART(state, uuid) {
+            state.cart = state.cart.filter(item => item.uuid !== uuid);
         },
         CLEAR_CART(state) {
             state.cart = [];
@@ -19,8 +20,8 @@ export default createStore({
         addToCart({ commit }, cake) {
             commit('ADD_TO_CART', cake);
         },
-        removeFromCart({ commit }, cakeId) {
-            commit('REMOVE_FROM_CART', cakeId);
+        removeFromCart({ commit }, uuid) {
+            commit('REMOVE_FROM_CART', uuid);
         },
         clearCart({ commit }) {
             commit('CLEAR_CART');
