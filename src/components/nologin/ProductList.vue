@@ -12,7 +12,7 @@
           </div>
           <button :class="{'add-to-cart-button': true, 'disabled-button': !userRole}" 
                   :disabled="!userRole" 
-                  @click="addToCart(cake)">
+                  @click="addCake(cake)">
             <img src="@/assets/cartAdd.svg" alt="Cart add">
             <!-- <span class="button-text">dodaj do koszyka</span> -->
           </button>
@@ -81,6 +81,7 @@ export default {
     ...mapActions(['addToCart']),
     addCake(cake) {
       this.addToCart(cake);
+      alert(`Dodano do koszyka: ${cake.name}`);
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
