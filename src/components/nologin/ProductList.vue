@@ -14,7 +14,7 @@
                   :disabled="!userRole" 
                   @click="addToCart(cake)">
             <img src="@/assets/cartAdd.svg" alt="Cart add">
-            <span class="button-text">dodaj do koszyka</span>
+            <!-- <span class="button-text">dodaj do koszyka</span> -->
           </button>
         </div>
       </li>
@@ -113,7 +113,7 @@ export default {
 .cake-item {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #7f3f00;
   padding: 10px 0;
   margin-bottom: 10px;
 }
@@ -128,6 +128,7 @@ export default {
   width: 100px;
   height: auto;
   margin-right: 20px;
+  border-radius: 50%;
 }
 
 .cake-info {
@@ -156,14 +157,15 @@ export default {
 }
 
 .add-to-cart-button img {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   margin-right: 5px;
 }
 
 .add-to-cart-button .button-text {
   font-style: italic;
-  color: #fff;
+  color: #7f3f00;
+  font-weight: bold;
 }
 
 .add-to-cart-button:hover {

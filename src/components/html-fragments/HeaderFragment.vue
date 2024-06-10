@@ -2,9 +2,15 @@
     <header class="no-select">
         <router-link to="/"><img src="@/assets/logo.svg" alt="Ciastkarnia Logo" class="logo"></router-link>
         <nav>
-            <div class="user-info no-select" v-if="!user">
-                <span class="login-status">Niezalogowano</span>
-                <router-link to="/login" v-if="!user" class="login-button">Zaloguj się</router-link>
+            <div class="user-info" v-if="!user">
+                <span @click="toggleDropdown" class="login-status">
+                    <img src="@/assets/user.svg" alt="User img" class="user-logo">
+                    Niezalogowano
+                    <span class="triangle" :class="{ open: isDropdownOpen }">&#9660;</span>
+                </span>
+                <div v-if="isDropdownOpen" class="dropdown-content" ref="dropdownContent">
+                    <router-link to="/login" v-if="!user" class="login-button">Zaloguj się</router-link>
+                </div>   
             </div>
 
             <div class="user-info" v-if="user">
@@ -100,7 +106,9 @@
 
 <style scoped>
 header {
-    background-color: #E7A66C;
+    background-color: rgb(253, 223, 166);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     color: #fff;
     padding: 1rem;
     display: flex;
@@ -118,13 +126,8 @@ nav {
 }
 
 nav a {
-    color: #fff;
     text-decoration: none;
     margin: 0 1rem;
-}
-
-nav a:hover {
-    text-decoration: underline;
 }
 
 .user-info {
@@ -143,26 +146,6 @@ nav a:hover {
     font-weight: bolder;
     font-size: 1rem;
     color: #7f3f00;
-}
-
-.user-info .login-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #7f3f00;
-    color: #E7A66C;
-    border: 2px solid #7f3f00;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-.user-info .login-button:hover {
-    background-color: #E7A66C;
-    color: #7f3f00;
-    font-size: 1rem;
 }
 
 .user-info .user-logo {
@@ -191,6 +174,7 @@ nav a:hover {
     top: 100%;
     right: 0;
     background-color: #ffffff;
+    border-radius: 5px;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -201,10 +185,42 @@ nav a:hover {
     box-sizing: border-box;
 }
 
-.user-info .dropdown-content .logout{
-    background-color: #E7A66C;
+.user-info .dropdown-content .login-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #7f3f00;
+    border: 2px solid #7f3f00;
+    color: rgb(253, 223, 166);
+    border-radius: 5px;
     text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
 }
+
+.user-info .dropdown-content .login-button:hover {
+    background-color: rgb(253, 223, 166);
+    color: #7f3f00;
+    font-size: 1rem;
+}
+
+.user-info .dropdown-content .logout{
+    background-color: #7f3f00;
+    color: rgb(253, 223, 166);
+    text-decoration: none;
+    border-radius: 0 0 5px 5px;
+    border: 0;
+}
+
+.user-info .dropdown-content .logout:hover{
+    background-color: rgb(253, 223, 166);
+    color: #7f3f00;;
+    text-decoration: none;
+    border-radius: 0 0 5px 5px;
+    border: 0;
+}
+
 .user-info .dropdown-content a,
 .user-info .dropdown-content button {
     color: #7f3f00;
@@ -221,7 +237,7 @@ nav a:hover {
 
 .user-info .dropdown-content a:hover,
 .user-info .dropdown-content button:hover {
-    background-color: #7f3f00;
-    color: #ffffff;
+    background-color: rgb(247, 231, 202);
+    color: #7f3f00;
 }
 </style>

@@ -17,32 +17,21 @@ export default {
 
 <style>
 body {
-  margin: 0;
+  margin: 1rem 1rem 0;
   font-family: 'Arial', sans-serif;
-  background-color: #f4f1e0;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  background-color: rgb(255, 240, 213);
 }
 
 main {
+  margin-top: 1rem;
+  padding: 1rem;
   flex: 1;
-  padding: 2rem;
-  background-color: #fff;
-}
-
-button {
-  background-color: #d2b48c;
-  border: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #c3a384;
+  background-color: rgb(253, 223, 166);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
 }
 
 .no-select {
