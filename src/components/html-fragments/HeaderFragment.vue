@@ -20,11 +20,11 @@
                     <span class="triangle" :class="{ open: isDropdownOpen }">&#9660;</span>
                 </span>
                 <div v-if="isDropdownOpen" class="dropdown-content" ref="dropdownContent">
-                    <router-link v-if="userRole === 'employee' || userRole === 'admin'"
-                        to="/zamowienia-pracownik">Podgląd zamówień</router-link>
+                    <router-link v-if="userRole === 'employee' || userRole === 'admin'" to="/all-orders">Podgląd
+                        zamówień</router-link>
 
-                    <router-link v-if="userRole === 'admin'" to="/ciastka-admin">Zarządzenie ciastkami</router-link>
-                    <router-link v-if="userRole === 'admin'" to="/lista-uzytkownikow-admin">Zarządzanie
+                    <router-link v-if="userRole === 'admin'" to="/admin-cakes">Zarządzenie produktami</router-link>
+                    <router-link v-if="userRole === 'admin'" to="/admin-users">Zarządzanie
                         Użytkownikami</router-link>
 
                     <router-link v-if="userRole === 'user'" to="/cart">
@@ -32,7 +32,7 @@
                         <span class="cart-count" v-if="cartItemCount > 0">({{ cartItemCount }})</span>
                     </router-link>
                     <router-link v-if="userRole === 'user'" to="/my-orders">Moje zamówienia</router-link>
-                    <button @click="logout" class="logout">Wyloguj</button>
+                    <button @click="confirmLogout" class="logout">Wyloguj</button>
                 </div>
             </div>
         </nav>
@@ -96,6 +96,11 @@ export default {
             const dropdownContent = this.$refs.dropdownContent;
             if (dropdownContent && !dropdownContent.contains(event.target) && this.isDropdownOpen) {
                 this.isDropdownOpen = false;
+            }
+        },
+        confirmLogout() {
+            if (confirm('Czy na pewno chcesz się wylogować?')) {
+                this.logout();
             }
         },
         async logout() {

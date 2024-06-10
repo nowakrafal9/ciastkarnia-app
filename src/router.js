@@ -22,11 +22,11 @@ const routes = [
     { path: '/cart', component: UserCart, meta: { requiresAuth: true, roles: ['user'] } },
     { path: '/confirm-order', component: OrderConfirm, meta: { requiresAuth: true, roles: ['user'] } },
     { path: '/my-orders', component: UserOrders, meta: { requiresAuth: true, roles: ['user'] } },
-    { path: '/zamowienia-pracownik', component: EmployeeOrders, meta: { requiresAuth: true, roles: ['employee', 'admin'] } },
-    { path: '/ciastka-admin', component: AdminCakes, meta: { requiresAuth: true, roles: ['admin'] } },
-    { path: '/dodaj-ciastko-admin', component: AdminAddCake, meta: { requiresAuth: true, roles: ['admin'] } },
-    { path: '/edytuj-ciastko-admin/:id', component: AdminEditCake, meta: { requiresAuth: true, roles: ['admin'] } },
-    { path: '/lista-uzytkownikow-admin', component: AdminUserList, meta: { requiresAuth: true, roles: ['admin'] } },
+    { path: '/all-orders', component: EmployeeOrders, meta: { requiresAuth: true, roles: ['employee', 'admin'] } },
+    { path: '/admin-cakes', component: AdminCakes, meta: { requiresAuth: true, roles: ['admin'] } },
+    { path: '/admin-add-cake', component: AdminAddCake, meta: { requiresAuth: true, roles: ['admin'] } },
+    { path: '/admin-edit-cake/:id', component: AdminEditCake, meta: { requiresAuth: true, roles: ['admin'] } },
+    { path: '/admin-users', component: AdminUserList, meta: { requiresAuth: true, roles: ['admin'] } },
     { path: '/login', component: Login },
     { path: '/register', component: Register }
 ];
