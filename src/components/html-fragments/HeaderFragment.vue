@@ -29,7 +29,7 @@
                         Koszyk
                         <span class="cart-count" v-if="cartItemCount > 0">({{ cartItemCount }})</span>
                     </router-link>
-                    <router-link v-if="userRole === 'user'" to="/moje-zamowienia">Moje zamówienia</router-link>
+                    <router-link v-if="userRole === 'user'" to="/my-orders">Moje zamówienia</router-link>
                     <button @click="logout" class="logout">Wyloguj</button>
                 </div>
             </div>

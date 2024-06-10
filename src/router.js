@@ -21,7 +21,7 @@ const routes = [
     { path: '/', component: Products },
     { path: '/koszyk', component: UserCart, meta: { requiresAuth: true, roles: ['user'] } },
     { path: '/potwierdzenie-zamowienia', component: OrderConfirm, meta: { requiresAuth: true, roles: ['user'] } },
-    { path: '/moje-zamowienia', component: UserOrders, meta: { requiresAuth: true, roles: ['user'] } },
+    { path: '/my-orders', component: UserOrders, meta: { requiresAuth: true, roles: ['user'] } },
     { path: '/zamowienia-pracownik', component: EmployeeOrders, meta: { requiresAuth: true, roles: ['employee', 'admin'] } },
     { path: '/ciastka-admin', component: AdminCakes, meta: { requiresAuth: true, roles: ['admin'] } },
     { path: '/dodaj-ciastko-admin', component: AdminAddCake, meta: { requiresAuth: true, roles: ['admin'] } },
