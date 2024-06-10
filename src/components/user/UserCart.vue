@@ -29,7 +29,7 @@
       <h2>Łączna kwota: {{ cartTotal }} zł</h2>
       <div class="button-group">
         <button class="btn" @click="emptyCart">Opróżnij koszyk</button>
-        <router-link to="/potwierdzenie-zamowienia">
+        <router-link to="/confirm-order">
           <button class="btn">Potwierdź zamówienie</button>
         </router-link>
         <router-link to="/">
@@ -125,7 +125,7 @@ button.btn {
   margin-top: 10px;
 }
 
-button.router-link + button.router-link {
+button.router-link+button.router-link {
   margin-left: 10px;
 }
 </style>

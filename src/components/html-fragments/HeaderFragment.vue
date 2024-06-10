@@ -10,22 +10,24 @@
                 </span>
                 <div v-if="isDropdownOpen" class="dropdown-content" ref="dropdownContent">
                     <router-link to="/login" v-if="!user" class="login-button">Zaloguj się</router-link>
-                </div>   
+                </div>
             </div>
 
             <div class="user-info" v-if="user">
                 <span @click="toggleDropdown" class="login-status">
                     <img src="@/assets/user.svg" alt="User img" class="user-logo">
-                    {{ userDisplayName }} 
+                    {{ userDisplayName }}
                     <span class="triangle" :class="{ open: isDropdownOpen }">&#9660;</span>
                 </span>
                 <div v-if="isDropdownOpen" class="dropdown-content" ref="dropdownContent">
-                    <router-link v-if="userRole === 'employee' || userRole === 'admin'" to="/zamowienia-pracownik">Podgląd zamówień</router-link>
-                    
-                    <router-link v-if="userRole === 'admin'" to="/ciastka-admin">Zarządzenie ciastkami</router-link>
-                    <router-link v-if="userRole === 'admin'" to="/lista-uzytkownikow-admin">Zarządzanie Użytkownikami</router-link>
+                    <router-link v-if="userRole === 'employee' || userRole === 'admin'"
+                        to="/zamowienia-pracownik">Podgląd zamówień</router-link>
 
-                    <router-link v-if="userRole === 'user'" to="/koszyk">
+                    <router-link v-if="userRole === 'admin'" to="/ciastka-admin">Zarządzenie ciastkami</router-link>
+                    <router-link v-if="userRole === 'admin'" to="/lista-uzytkownikow-admin">Zarządzanie
+                        Użytkownikami</router-link>
+
+                    <router-link v-if="userRole === 'user'" to="/cart">
                         Koszyk
                         <span class="cart-count" v-if="cartItemCount > 0">({{ cartItemCount }})</span>
                     </router-link>
@@ -38,70 +40,70 @@
 </template>
 
 <script>
-    import { auth, db } from '@/firebase';
-    import { signOut } from "firebase/auth";
-    import { getDoc, doc } from "firebase/firestore";
-    import { mapState } from 'vuex';
+import { auth, db } from '@/firebase';
+import { signOut } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
+import { mapState } from 'vuex';
 
-    export default {
-        data() {
-            return {
-                user: null,
-                userRole: null,
-                userDisplayName: '',
-                isDropdownOpen: false,
-            };
-        },
-        computed: {
-            ...mapState({
-                cartItemCount: state => state.cart.length
-            })
-        },
-        async created() {
+export default {
+    data() {
+        return {
+            user: null,
+            userRole: null,
+            userDisplayName: '',
+            isDropdownOpen: false,
+        };
+    },
+    computed: {
+        ...mapState({
+            cartItemCount: state => state.cart.length
+        })
+    },
+    async created() {
+        this.updateUserState();
+
+        auth.onAuthStateChanged(() => {
             this.updateUserState();
+        });
 
-            auth.onAuthStateChanged(() => {
-                this.updateUserState();
-            });
-
-            document.addEventListener('click', this.handleClickOutside);
-        },
-        beforeUnmount() {
-            document.removeEventListener('click', this.handleClickOutside);
-        },
-        methods: {
-            async updateUserState() {
-                const user = auth.currentUser;
-                if (user) {
-                    this.user = user;
-                    const userDoc = await getDoc(doc(db, 'users', user.uid));
-                    if (userDoc.exists()) {
-                        const userData = userDoc.data();
-                        this.userRole = userData.role;
-                        this.userDisplayName = `${userData.firstName} ${userData.lastName}`;
-                    }
-                } else {
-                    this.user = null;
-                    this.userRole = null;
-                    this.userDisplayName = '';
+        document.addEventListener('click', this.handleClickOutside);
+    },
+    beforeUnmount() {
+        document.removeEventListener('click', this.handleClickOutside);
+    },
+    methods: {
+        async updateUserState() {
+            const user = auth.currentUser;
+            if (user) {
+                this.user = user;
+                const userDoc = await getDoc(doc(db, 'users', user.uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    this.userRole = userData.role;
+                    this.userDisplayName = `${userData.firstName} ${userData.lastName}`;
                 }
-            },
-            toggleDropdown(event) {
-                event.stopPropagation();
-                this.isDropdownOpen = !this.isDropdownOpen;
-            },
-            handleClickOutside(event) {
-                const dropdownContent = this.$refs.dropdownContent;
-                if (dropdownContent && !dropdownContent.contains(event.target) && this.isDropdownOpen) {
-                    this.isDropdownOpen = false;
-                }
-            },
-            async logout() {
-                await signOut(auth);
-                this.$router.push('/');
+            } else {
+                this.user = null;
+                this.userRole = null;
+                this.userDisplayName = '';
             }
+        },
+        toggleDropdown(event) {
+            event.stopPropagation();
+            this.isDropdownOpen = !this.isDropdownOpen;
+        },
+        handleClickOutside(event) {
+            const dropdownContent = this.$refs.dropdownContent;
+            if (dropdownContent && !dropdownContent.contains(event.target) && this.isDropdownOpen) {
+                this.isDropdownOpen = false;
+            }
+        },
+        async logout() {
+            await signOut(auth);
+            this.$router.push('/');
         }
-    };
+    }
+};
 </script>
 
 <style scoped>
@@ -176,7 +178,7 @@ nav a {
     background-color: #ffffff;
     border-radius: 5px;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -205,7 +207,7 @@ nav a {
     font-size: 1rem;
 }
 
-.user-info .dropdown-content .logout{
+.user-info .dropdown-content .logout {
     background-color: #7f3f00;
     color: rgb(253, 223, 166);
     text-decoration: none;
@@ -213,9 +215,10 @@ nav a {
     border: 0;
 }
 
-.user-info .dropdown-content .logout:hover{
+.user-info .dropdown-content .logout:hover {
     background-color: rgb(253, 223, 166);
-    color: #7f3f00;;
+    color: #7f3f00;
+    ;
     text-decoration: none;
     border-radius: 0 0 5px 5px;
     border: 0;
@@ -231,7 +234,7 @@ nav a {
     text-align: center;
     width: 100%;
     box-sizing: border-box;
-    font-family: Arial,sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 16px;
 }
 

@@ -19,8 +19,8 @@ import { getDoc, doc } from "firebase/firestore";
 
 const routes = [
     { path: '/', component: Products },
-    { path: '/koszyk', component: UserCart, meta: { requiresAuth: true, roles: ['user'] } },
-    { path: '/potwierdzenie-zamowienia', component: OrderConfirm, meta: { requiresAuth: true, roles: ['user'] } },
+    { path: '/cart', component: UserCart, meta: { requiresAuth: true, roles: ['user'] } },
+    { path: '/confirm-order', component: OrderConfirm, meta: { requiresAuth: true, roles: ['user'] } },
     { path: '/my-orders', component: UserOrders, meta: { requiresAuth: true, roles: ['user'] } },
     { path: '/zamowienia-pracownik', component: EmployeeOrders, meta: { requiresAuth: true, roles: ['employee', 'admin'] } },
     { path: '/ciastka-admin', component: AdminCakes, meta: { requiresAuth: true, roles: ['admin'] } },

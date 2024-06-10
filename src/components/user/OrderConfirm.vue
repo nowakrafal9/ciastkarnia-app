@@ -17,7 +17,7 @@
     <h3>Łączna kwota: {{ cartTotal }} zł</h3>
     <div class="button-group">
       <button @click="confirmOrder" class="btn">Potwierdź Zamówienie</button>
-      <router-link to="/koszyk">
+      <router-link to="/cart">
         <button class="btn">Anuluj</button>
       </router-link>
     </div>
@@ -152,7 +152,7 @@ export default {
   background-color: #d9985c;
 }
 
-.btn + .btn {
+.btn+.btn {
   margin-left: 10px;
 }
 </style>
