@@ -99,7 +99,7 @@ export default {
 
 .btn {
   background-color: #E7A66C;
-  color: #fff;
+  color: #7f3f00;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -112,7 +112,7 @@ export default {
   background-color: #d9985c;
 }
 
-.btn + .btn {
+.btn+.btn {
   margin-left: 10px;
 }
 </style>

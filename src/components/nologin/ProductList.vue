@@ -10,11 +10,10 @@
             <p>{{ cake.price }} zł</p>
             <p>{{ cake.description }}</p>
           </div>
-          <button :class="{'add-to-cart-button': true, 'disabled-button': !userRole}" 
-                  :disabled="!userRole" 
-                  @click="addCake(cake)">
+          <button :class="{ 'add-to-cart-button': true, 'disabled-button': !userRole }" :disabled="!userRole"
+            @click="addCake(cake)">
+            <span class="button-text">Dodaj do koszyka</span>
             <img src="@/assets/cartAdd.svg" alt="Cart add">
-            <!-- <span class="button-text">dodaj do koszyka</span> -->
           </button>
         </div>
       </li>

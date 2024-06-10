@@ -33,7 +33,7 @@
 <script>
 import { auth, db } from '@/firebase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, setDoc } from "firebase/firestore"; 
+import { collection, doc, setDoc } from "firebase/firestore";
 
 export default {
   data() {
@@ -120,7 +120,7 @@ export default {
 
 .btn {
   background-color: #E7A66C;
-  color: #fff;
+  color: #7f3f00;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -141,7 +141,7 @@ export default {
   background-color: #bbb;
 }
 
-.btn + .btn {
+.btn+.btn {
   margin-left: 10px;
 }
 </style>
