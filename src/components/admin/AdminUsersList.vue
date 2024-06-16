@@ -41,7 +41,7 @@
         </tr>
       </table>
     </div>
-    <table class="user-table">
+    <table class="user-table" v-if="paginatedUsers.length > 0">
       <thead>
         <tr>
           <th>Email</th>
@@ -66,7 +66,10 @@
         </tr>
       </tbody>
     </table>
-    <div class="pagination">
+    <div v-else class="no-users">
+      <h2>Brak użytkowników</h2>
+    </div>
+    <div class="pagination" v-if="totalPages > 1">
       <button @click="prevPage" :disabled="currentPage === 1">Poprzednia</button>
       <span>Strona {{ currentPage }} z {{ totalPages }}</span>
       <button @click="nextPage" :disabled="currentPage === totalPages">Następna</button>
@@ -146,7 +149,7 @@ export default {
       }
     },
     applyFilters() {
-      this.currentPage = 1; // Reset current page to 1 when filters are applied
+      this.currentPage = 1;
     },
     toggleFilters() {
       this.showFilters = !this.showFilters;
@@ -248,17 +251,20 @@ td .btn {
 
 .pagination {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
 }
 
 .pagination button {
-  padding: 10px 20px;
+  background-color: #E7A66C;
   border: none;
-  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
+  margin: 0 10px;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  color: #fff;
+  border-radius: 5px;
 }
 
 .pagination button:disabled {
@@ -266,7 +272,16 @@ td .btn {
   cursor: not-allowed;
 }
 
-.pagination button:not(:disabled):hover {
-  background-color: #d9985c;
+.pagination span {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #7f3f00;
+}
+
+.no-users{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50vh;
 }
 </style>

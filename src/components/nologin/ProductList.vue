@@ -10,7 +10,7 @@
             <p>{{ cake.price }} zł</p>
             <p>{{ cake.description }}</p>
           </div>
-          <button :class="{ 'add-to-cart-button': true, 'disabled-button': !userRole }" :disabled="!userRole"
+          <button :class="{ 'add-to-cart-button': true, 'disabled-button': userRole !== 'user' }" :disabled="userRole !== 'user'"
             @click="addCake(cake)">
             <span class="button-text">Dodaj do koszyka</span>
             <img src="@/assets/cartAdd.svg" alt="Cart add">
@@ -79,8 +79,10 @@ export default {
     },
     ...mapActions(['addToCart']),
     addCake(cake) {
-      this.addToCart(cake);
-      alert(`Dodano do koszyka: ${cake.name}`);
+      if (this.userRole === 'user') {
+        this.addToCart(cake);
+        alert(`Dodano do koszyka: ${cake.name}`);
+      }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
